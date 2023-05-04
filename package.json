@@ -1,0 +1,38 @@
+{
+  "name": "plotwright",
+  "version": "0.1.0",
+  "description": "A meta-framework for web testing using Mountebank and Playwright",
+  "main": "src/index.ts",
+  "bin": {
+    "plotwright": "./bin/plotwright"
+  },
+  "scripts": {
+    "start": "node src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/plotwright.git"
+  },
+  "keywords": [
+    "testing",
+    "playwright",
+    "mountebank",
+    "web-testing",
+    "meta-framework",
+    "page-objects"
+  ],
+  "author": "Evgeniy Podivilov<evgeniy.podivilov@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.32.3",
+    "minimist": "^1.2.8",
+    "mountebank": "^2.3.3",
+    "playwright": "^1.32.3",
+    "tmp": "^0.2.1"
+  }
+}
