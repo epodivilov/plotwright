@@ -13,18 +13,43 @@ The name "Plotwright" is a combination of the words "plot" and "wright." A plot 
 
 ## Getting Started
 
-_TODO: Add instructions on how to install and set up Plotwright, as well as basic usage examples._
+### Prerequisites
 
-## Documentation
+- Ensure that your Backends for Frontends (BFF) service can propagate the `X-Request-ID` header. This is required for the `plotwright` framework to correctly handle requests and responses.
 
-_TODO: Add links to more in-depth documentation, guides, and API reference._
+### Installation
 
-## Contributing
+1. Install the `plotwright` package:
 
-_TODO: Add information on how to contribute to the project, including guidelines, code of conduct, and issue reporting._
+```bash
+npm install plotwright
+```
 
-## License
+### Configuration
 
-_TODO: Add information about the chosen open-source license._
+Create a plotwright.config.js file in the root of your project. This file will be used to configure plotwright to fit your needs.
 
-We hope you find Plotwright useful in creating efficient, readable, and maintainable end-to-end tests for your projects!
+```javascript
+// plotwright.config.ts
+const {} = require("plotwright");
+
+module.exports = makeConfig({
+  mountebanks: {
+    // mountebanks options
+  },
+  playwright: {
+    // playwright options
+  },
+});
+```
+
+### Running Tests
+
+Run your tests with the following command:
+
+```bash
+npx plotwright test
+```
+
+This will run your tests using the configuration specified in plotwright.config.ts. If the test run completes successfully, a report will be generated.
+
