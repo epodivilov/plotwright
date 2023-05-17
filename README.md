@@ -19,7 +19,7 @@ The name "Plotwright" is a combination of the words "plot" and "wright." A plot 
 
 ### Installation
 
-1. Install the `plotwright` package:
+Install the `plotwright` package:
 
 ```bash
 npm install plotwright
