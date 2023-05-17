@@ -13,10 +13,14 @@ type ConstructorArgs<T, P, A extends any[]> = new (page: P, ...args: A) => T;
 type ExtendedTest = {
   useAnnotation: (type: string, description: string) => Promise<void>;
   useStubs: (stubs: Promise<any>[]) => Promise<void>;
-  usePage: <T extends { url: string }, A extends any[]>(
+  usePage: <T extends { pageUrl: string }, A extends any[]>(
     Constructor: ConstructorArgs<T, BasePage, A>,
     ...args: A
-  ) => BasePage & T & { open: () => Promise<void> };
+  ) => BasePage &
+    T & {
+      open: () => Promise<void>;
+      openWithParameters: (params: Record<string, string>) => Promise<void>;
+    };
 };
 export const test = base.extend<ExtendedTest>({
   async useAnnotation({}, use, testInfo) {
@@ -30,7 +34,8 @@ export const test = base.extend<ExtendedTest>({
         testInfo.annotations.find((it) => it.type === "ID")?.description ||
         testInfo.testId;
 
-      await page.route("/**/*", (route, request) => {
+      await page.setExtraHTTPHeaders({ "X-Request-ID": testId });
+      await page.route("**/*", async (route, request) => {
         route.continue({
           headers: {
             ...request.headers(),
@@ -59,11 +64,19 @@ export const test = base.extend<ExtendedTest>({
       );
     });
   },
-  async usePage({ page }, use) {
+  async usePage({ page, baseURL }, use) {
     await use((Constructor, ...args) => {
       const pageObject = new Constructor(page, ...args);
       const prototypes = [
-        { open: () => page.goto(pageObject.url) },
+        {
+          open: () => page.goto(pageObject.pageUrl),
+          openWithParameters: (params: Record<string, string>) => {
+            const url = new URL(pageObject.pageUrl);
+            url.search = new URLSearchParams(params).toString();
+
+            return page.goto(url.href.replace(url.origin, baseURL || ""));
+          },
+        },
         pageObject,
         page,
       ];
@@ -73,6 +86,10 @@ export const test = base.extend<ExtendedTest>({
         get(_, prop, receiver) {
           const obj = prototypes.find((obj) => prop in obj);
           return obj ? Reflect.get(obj, prop, receiver) : void 0;
+        },
+        set(_, prop, receiver) {
+          const obj = prototypes.find((obj) => prop in obj);
+          return obj ? Reflect.set(obj, prop, receiver) : false;
         },
         ownKeys() {
           const hash = Object.create(null);
