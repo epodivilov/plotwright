@@ -1,3 +1,3 @@
-const { curl, log, startMountebank, startPlaywright, injectPredicate } = require('./src');
+const { curl, log, startMountebank, startPlaywright, showPlaywrightReport, injectPredicate, importConfig } = require('./src');
 
-module.exports = { curl, log, startMountebank, startPlaywright, injectPredicate };
+module.exports = { curl, log, startMountebank, startPlaywright, showPlaywrightReport, injectPredicate, importConfig };
