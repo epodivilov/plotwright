@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/epodivilov/plotwright/compare/v0.2.2...v0.2.3) (2023-05-24)
+
+
+### Bug Fixes
+
+* :bug: remove pre-release name of package ([e87c075](https://github.com/epodivilov/plotwright/commit/e87c075f09b32bb280869d621f540d9870c3607d))
+
 ## [0.2.2](https://github.com/epodivilov/plotwright/compare/v0.2.1...v0.2.2) (2023-05-24)
 
 
