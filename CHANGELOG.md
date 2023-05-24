@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/epodivilov/plotwright/compare/v0.2.4...v0.2.5) (2023-05-24)
+
+
+### Bug Fixes
+
+* :bug: correct path to core module in cli ([0d36b82](https://github.com/epodivilov/plotwright/commit/0d36b82ad092c3a9aa914161e49746e4d620e3bd))
+
 ## [0.2.4](https://github.com/epodivilov/plotwright/compare/v0.2.3...v0.2.4) (2023-05-24)
 
 
