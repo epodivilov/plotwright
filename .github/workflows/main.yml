@@ -32,7 +32,7 @@ jobs:
         with:
           version: 8.5.1
         if: ${{ steps.release.outputs.release_created }}
-      - name: Install
+      - name: Install dependencies
         run: pnpm install
         if: ${{ steps.release.outputs.release_created }}
       - name: Generate Types
