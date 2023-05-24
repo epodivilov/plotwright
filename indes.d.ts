@@ -2,9 +2,9 @@ import { PlaywrightTestConfig } from '@playwright/test'
 import * as lib from './packages/tools/src';
 import * as test from './packages/test-utils/src';
 
-declare module 'plotwright-alpha' {
+declare module 'plotwright' {
     const _exported: typeof lib & typeof test;
-    
+
     type MountebankOptions = {
         host?: string;
         port?: number;

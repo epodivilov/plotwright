@@ -13,7 +13,7 @@ program
   .description('Create a base configuration file')
   .action(async () => {
     await writeFile('plotwright.config.js', [
-      `/** @type {import('plotwright-alpha').Configuration} */`,
+      `/** @type {import('plotwright').Configuration} */`,
       `module.exports = {}`
     ].join('\n'));
     log('Default configuration created successfully! 🎉\n')
