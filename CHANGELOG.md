@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/epodivilov/plotwright/compare/v0.2.6...v0.2.7) (2023-05-24)
+
+
+### Bug Fixes
+
+* :label: generate d.ts near js files ([40a7f38](https://github.com/epodivilov/plotwright/commit/40a7f38f9d98ad8f1bbf43c9526378a61ae1bb74))
+
 ## [0.2.6](https://github.com/epodivilov/plotwright/compare/v0.2.5...v0.2.6) (2023-05-24)
 
 
