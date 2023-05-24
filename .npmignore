@@ -1,0 +1,5 @@
+*.yaml
+.npmrc
+.npmignore
+.editorconfig
+node_modules

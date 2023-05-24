@@ -1,29 +1,17 @@
-import { test as base } from "@playwright/test";
-import type { Page as BasePage } from "@playwright/test";
-import { curl, injectPredicate } from "../utils";
+const playwright = require("@playwright/test");
+const { curl, injectPredicate } = require("../../core");
 
-export * from "@playwright/test";
+/** @type {typeof playwright.test.describe} */
+const describe = playwright.test.describe;
 
-export const describe = base.describe;
-export const step = base.step;
-export const expect = base.expect;
+/** @type {typeof playwright.test.step} */
+const step = playwright.test.step;
 
-type ConstructorArgs<T, P, A extends any[]> = new (page: P, ...args: A) => T;
+/** @type {typeof playwright.test.expect} */
+const expect = playwright.test.expect;
 
-type ExtendedTest = {
-  useAnnotation: (type: string, description: string) => Promise<void>;
-  useStubs: (stubs: Promise<any>[]) => Promise<void>;
-  usePage: <T extends { pageUrl: string }, A extends any[]>(
-    Constructor: ConstructorArgs<T, BasePage, A>,
-    ...args: A
-  ) => BasePage &
-    T & {
-      open: () => Promise<void>;
-      openWithParameters: (params: Record<string, string>) => Promise<void>;
-    };
-};
-export const test = base.extend<ExtendedTest>({
-  async useAnnotation({}, use, testInfo) {
+const test = playwright.test.extend({
+  async useAnnotation({ }, use, testInfo) {
     await use(async (type, description) => {
       testInfo.annotations.push({ type, description });
     });
@@ -34,7 +22,7 @@ export const test = base.extend<ExtendedTest>({
         testInfo.annotations.find((it) => it.type === "ID")?.description ||
         testInfo.testId;
 
-      await page.setExtraHTTPHeaders({ "X-Request-ID": testId });
+      await page.setExtraHTTPHeaders({ "x-request-id": testId })
       await page.route("**/*", async (route, request) => {
         route.continue({
           headers: {
@@ -52,6 +40,7 @@ export const test = base.extend<ExtendedTest>({
         stubs.map(({ imposter, ...stub }) => {
           return curl({ port: 2525 }, "POST", `/imposters/${imposter}/stubs`, {
             index: 0,
+            // stub,
             stub: injectPredicate(stub, {
               contains: {
                 headers: {
@@ -64,18 +53,18 @@ export const test = base.extend<ExtendedTest>({
       );
     });
   },
-  async usePage({ page, baseURL }, use) {
+  async usePage({ page }, use) {
     await use((Constructor, ...args) => {
       const pageObject = new Constructor(page, ...args);
       const prototypes = [
         {
           open: () => page.goto(pageObject.pageUrl),
-          openWithParameters: (params: Record<string, string>) => {
-            const url = new URL(pageObject.pageUrl);
+          openWithParameters: (params) => {
+            const url = new URL(pageObject.pageUrl, 'http://localhost');
             url.search = new URLSearchParams(params).toString();
 
-            return page.goto(url.href.replace(url.origin, baseURL || ""));
-          },
+            return page.goto(url.href.replace(url.origin, ''));
+          }
         },
         pageObject,
         page,
@@ -108,4 +97,6 @@ export const test = base.extend<ExtendedTest>({
       });
     });
   },
-});
+})
+
+module.exports = { test, expect, describe, step }

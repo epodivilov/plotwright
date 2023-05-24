@@ -2,17 +2,21 @@
   "name": "plotwright",
   "version": "0.1.0",
   "description": "A meta-framework for web testing using Mountebank and Playwright",
-  "main": "src/index.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "bin": {
     "plotwright": "./bin/plotwright"
   },
-  "scripts": {
-    "start": "node src/index.ts",
-    "build": "tsc"
+  "exports": {
+    ".": "./index.js",
+    "./core": "./packages/core/index.js",
+    "./test-utils": "./packages/test-utils/index.js",
+    "./tools": "./packages/tools/index.js"
   },
+  "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/plotwright.git"
+    "url": "https://github.com/epodivilov/plotwright.git"
   },
   "keywords": [
     "testing",
@@ -24,15 +28,14 @@
   ],
   "author": "Evgeniy Podivilov<evgeniy.podivilov@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^18.15.11",
+  "dependencies": {
+    "@playwright/test": "^1.34.0",
+    "commander": "^10.0.1",
+    "mountebank": "^2.8.2",
     "typescript": "^5.0.4"
   },
-  "dependencies": {
-    "@playwright/test": "^1.32.3",
-    "minimist": "^1.2.8",
-    "mountebank": "^2.3.3",
-    "playwright": "^1.32.3",
-    "tmp": "^0.2.1"
+  "devDependencies": {
+    "@types/node": "^20.2.1",
+    "dual-publish": "^3.0.1"
   }
 }

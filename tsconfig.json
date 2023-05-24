@@ -1,0 +1,16 @@
+{
+  "include": [
+    "packages/**/*.js",
+  ],
+  "exclude": [
+    "**/*.d.ts",
+  ],
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "types"
+  }
+}
