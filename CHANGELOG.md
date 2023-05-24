@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/epodivilov/plotwright/compare/v0.2.1...v0.2.2) (2023-05-24)
+
+
+### Bug Fixes
+
+* :construction_worker: reorder steps to setup pnpm before node ([3ca062b](https://github.com/epodivilov/plotwright/commit/3ca062bb832facb768b69526216e79aa584bac2b))
+
 ## [0.2.1](https://github.com/epodivilov/plotwright/compare/v0.2.0...v0.2.1) (2023-05-24)
 
 
