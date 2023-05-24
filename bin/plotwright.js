@@ -4,7 +4,7 @@ import { writeFile, mkdtemp, rmdir } from 'fs/promises';
 import { join } from 'path';
 import { Command } from 'commander';
 
-import { startPlaywright, startMountebank, showPlaywrightReport, importConfig, log } from "../../packages/core/index.js";
+import { startPlaywright, startMountebank, showPlaywrightReport, importConfig, log } from "../packages/core/index.js";
 
 const program = new Command();
 
