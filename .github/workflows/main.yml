@@ -32,8 +32,10 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: Generate Types
         run: npx tsc
+        if: ${{ steps.release.outputs.release_created }}
       - name: Make CLI executable
         run: chmod +x ./bin/plotwright
+        if: ${{ steps.release.outputs.release_created }}
       - name: Publish
         run: npx dual-publish
         env:
