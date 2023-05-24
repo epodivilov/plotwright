@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/epodivilov/plotwright/compare/v0.2.5...v0.2.6) (2023-05-24)
+
+
+### Bug Fixes
+
+* :bug: re-export util importConfig ([fe85cc0](https://github.com/epodivilov/plotwright/commit/fe85cc0734db56e648ff1e7ded122eee1a5ad247))
+
 ## [0.2.5](https://github.com/epodivilov/plotwright/compare/v0.2.4...v0.2.5) (2023-05-24)
 
 
