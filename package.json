@@ -1,6 +1,6 @@
 {
   "name": "plotwright",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A meta-framework for web testing using Mountebank and Playwright",
   "main": "./index.js",
   "types": "./index.d.ts",
