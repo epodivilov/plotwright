@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4](https://github.com/epodivilov/plotwright/compare/v0.2.3...v0.2.4) (2023-05-24)
+
+
+### Bug Fixes
+
+* :bug: rename bin file ([aeba792](https://github.com/epodivilov/plotwright/commit/aeba792a9df3c8baffa2002ffcc8b040664d23ce))
+* :bug: rename typings file ([09ce29e](https://github.com/epodivilov/plotwright/commit/09ce29e9466278f05e729d91b82805fa80ab6365))
+
 ## [0.2.3](https://github.com/epodivilov/plotwright/compare/v0.2.2...v0.2.3) (2023-05-24)
 
 
