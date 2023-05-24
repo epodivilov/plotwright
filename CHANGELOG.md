@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/epodivilov/plotwright/compare/v0.2.0...v0.2.1) (2023-05-24)
+
+
+### Bug Fixes
+
+* :pencil2: rename sub-package name ([a9c171d](https://github.com/epodivilov/plotwright/commit/a9c171d53b9c71428113eb0f86b39ec4095803be))
+
 ## 0.2.0 (2023-05-24)
 
 
