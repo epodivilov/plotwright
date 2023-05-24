@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "bin": {
-    "plotwright": "./bin/plotwright"
+    "plotwright": "./bin/plotwright.js"
   },
   "exports": {
     ".": "./index.js",

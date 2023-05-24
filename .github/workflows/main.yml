@@ -39,7 +39,7 @@ jobs:
         run: npx tsc
         if: ${{ steps.release.outputs.release_created }}
       - name: Make CLI executable
-        run: chmod +x ./bin/plotwright
+        run: chmod +x ./bin/plotwright.js
         if: ${{ steps.release.outputs.release_created }}
       - name: Publish
         run: npx dual-publish
