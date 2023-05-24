@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - main
+name: Release & Publish
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: plotwright
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Install
+        run: pnpm install
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Generate Types
+        run: npx tsc
+      - name: Make CLI executable
+        run: chmod +x ./bin/plotwright
+      - name: Publish
+        run: npx dual-publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ steps.release.outputs.release_created }}
