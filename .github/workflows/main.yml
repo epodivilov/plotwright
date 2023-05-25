@@ -18,6 +18,7 @@ jobs:
         with:
           release-type: node
           package-name: plotwright
+          release-as: 0.3.9
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
       - name: Setup pnpm
