@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.9](https://github.com/epodivilov/plotwright/compare/v0.3.0...v0.3.9) (2023-05-25)
+
+
+### Features
+
+* :construction: manually trigger release ([809a3b2](https://github.com/epodivilov/plotwright/commit/809a3b24fabc6cb40acb810f7c96b4a570c22b55))
+
 ## [0.3.0](https://github.com/epodivilov/plotwright/compare/v0.2.7...v0.3.0) (2023-05-25)
 
 
