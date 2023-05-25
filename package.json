@@ -2,18 +2,29 @@
   "name": "plotwright",
   "version": "0.2.7",
   "description": "A meta-framework for web testing using Mountebank and Playwright",
-  "main": "./index.js",
-  "types": "./index.d.ts",
   "bin": {
     "plotwright": "./bin/plotwright.js"
   },
+  "type": "module",
+  "main": "./cjs/index.js",
+  "types": "./cjs/index.d.ts",
+  "module": "./esm/index.js",
   "exports": {
-    ".": "./index.js",
-    "./core": "./packages/core/index.js",
-    "./test-utils": "./packages/test-utils/index.js",
-    "./tools": "./packages/tools/index.js"
+    ".": {
+      "import": {
+        "types": "./esm/index.d.ts",
+        "default": "./esm/index.js"
   },
-  "scripts": {},
+      "require": {
+        "types": "./cjs/index.d.ts",
+        "default": "./cjs/index.js"
+      },
+      "default": "./cjs/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && tsconfig-to-dual-package"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/epodivilov/plotwright.git"
@@ -36,6 +47,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.1",
-    "dual-publish": "^3.0.1"
+    "tsconfig-to-dual-package": "^1.2.0"
   }
 }
