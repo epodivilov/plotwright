@@ -35,14 +35,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
         if: ${{ steps.release.outputs.release_created }}
-      - name: Generate Types
-        run: npx tsc
+      - name: Build project
+        run: pnpm run build
         if: ${{ steps.release.outputs.release_created }}
       - name: Make CLI executable
         run: chmod +x ./bin/plotwright.js
         if: ${{ steps.release.outputs.release_created }}
       - name: Publish
-        run: npx dual-publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
