@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.9](https://github.com/epodivilov/plotwright/compare/v0.3.9...v0.3.9) (2023-05-25)
+
+
+### Bug Fixes
+
+* :green_heart: fix pnpm-lock file ([ac3087a](https://github.com/epodivilov/plotwright/commit/ac3087ae0a1ece5f60e0064c2071197508c2b6ba))
+
 ## [0.3.9](https://github.com/epodivilov/plotwright/compare/v0.3.0...v0.3.9) (2023-05-25)
 
 
