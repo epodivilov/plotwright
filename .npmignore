@@ -2,4 +2,9 @@
 .npmrc
 .npmignore
 .editorconfig
+.gitignore
+.github
+tsconfig*
 node_modules
+/packages
+/index.ts
