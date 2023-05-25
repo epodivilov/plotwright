@@ -1,6 +1,6 @@
 {
   "name": "plotwright",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "A meta-framework for web testing using Mountebank and Playwright",
   "bin": {
     "plotwright": "./bin/plotwright.js"
