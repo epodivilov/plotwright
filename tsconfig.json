@@ -5,7 +5,7 @@
   ],
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "outDir": "./esm/",
     "target": "ES2018",

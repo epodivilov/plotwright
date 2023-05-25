@@ -5,7 +5,7 @@
   ],
   "compilerOptions": {
     "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "outDir": "./cjs/",
     "esModuleInterop": true,
     "target": "ES2018",
