@@ -6,6 +6,7 @@ import { existsSync } from 'fs';
 import * as fs from 'fs/promises';
 import { spawn } from 'child_process';
 import { PlaywrightTestConfig } from '@playwright/test';
+import { clearLine, cursorTo } from "readline";
 
 function curl(options: any, method: "POST" | "GET" | "PUT" | "DELETE", path: string, data: any) {
   return new Promise((resolve, reject) => {
@@ -49,11 +50,10 @@ function curl(options: any, method: "POST" | "GET" | "PUT" | "DELETE", path: str
 }
 
 function log(message: string) {
-  process.stdout.clearLine(0);
-  process.stdout.cursorTo(0);
+  clearLine(process.stdout, 0);
+  cursorTo(process.stdout, 0);
   process.stdout.write(message);
 }
-
 
 export type MountebankConfig = {
   host?: string;
