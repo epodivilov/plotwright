@@ -1,6 +1,6 @@
 {
   "name": "plotwright",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "description": "A meta-framework for web testing using Mountebank and Playwright",
   "bin": {
     "plotwright": "./bin/plotwright.js"
@@ -14,7 +14,7 @@
       "import": {
         "types": "./esm/index.d.ts",
         "default": "./esm/index.js"
-  },
+      },
       "require": {
         "types": "./cjs/index.d.ts",
         "default": "./cjs/index.js"

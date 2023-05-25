@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/epodivilov/plotwright/compare/v0.2.7...v0.3.0) (2023-05-25)
+
+
+### Features
+
+* :technologist: convert project to TypeScript ([082b384](https://github.com/epodivilov/plotwright/commit/082b38466036c11f2430a724914be1b0b1a83865))
+
 ## [0.2.7](https://github.com/epodivilov/plotwright/compare/v0.2.6...v0.2.7) (2023-05-24)
 
 
