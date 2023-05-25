@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.11](https://github.com/epodivilov/plotwright/compare/v0.3.10...v0.3.11) (2023-05-25)
+
+
+### Bug Fixes
+
+* :construction_worker: replace process.stdout.clearLine with clearLine from 'readline' package ([4d51005](https://github.com/epodivilov/plotwright/commit/4d510050381c2b79346d072223302db1b030eb0e))
+
 ## [0.3.10](https://github.com/epodivilov/plotwright/compare/v0.3.9...v0.3.10) (2023-05-25)
 
 
