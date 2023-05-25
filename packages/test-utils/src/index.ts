@@ -1,16 +1,19 @@
-const playwright = require("@playwright/test");
-const { curl, injectPredicate } = require("../../core");
+import { test as base, Page } from "@playwright/test";
+import { curl, injectPredicate } from "../../core";
 
-/** @type {typeof playwright.test.describe} */
-const describe = playwright.test.describe;
-
-/** @type {typeof playwright.test.step} */
-const step = playwright.test.step;
-
-/** @type {typeof playwright.test.expect} */
-const expect = playwright.test.expect;
-
-const test = playwright.test.extend({
+type ConstructorArgs<T, P, A extends any[]> = new (page: P, ...args: A) => T;
+type ExtendedTest = {
+  useAnnotation: (type: string, description: string) => Promise<void>;
+  useStubs: (stubs: Promise<any>[]) => Promise<void>;
+  usePage: <T extends { pageUrl: string }, A extends any[]>(
+    Constructor: ConstructorArgs<T, Page, A>,
+    ...args: A
+  ) => Page & T & {
+    open: () => Promise<void>;
+    openWithParameters: (params: Record<string, string>) => Promise<void>
+  };
+};
+export const test = base.extend<ExtendedTest>({
   async useAnnotation({ }, use, testInfo) {
     await use(async (type, description) => {
       testInfo.annotations.push({ type, description });
@@ -59,7 +62,7 @@ const test = playwright.test.extend({
       const prototypes = [
         {
           open: () => page.goto(pageObject.pageUrl),
-          openWithParameters: (params) => {
+          openWithParameters: (params: Record<string, string>) => {
             const url = new URL(pageObject.pageUrl, 'http://localhost');
             url.search = new URLSearchParams(params).toString();
 
@@ -99,4 +102,6 @@ const test = playwright.test.extend({
   },
 })
 
-module.exports = { test, expect, describe, step }
+export const describe: typeof base.describe = base.describe;
+export const step = base.step;
+export const expect = base.expect;

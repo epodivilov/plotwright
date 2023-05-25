@@ -4,10 +4,10 @@
     "./index.ts"
   ],
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./cjs/",
     "esModuleInterop": true,
-    "outDir": "./esm/",
     "target": "ES2018",
     "strict": true,
     "declaration": true,

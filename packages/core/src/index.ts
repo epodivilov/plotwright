@@ -1,18 +1,13 @@
-const mb = require('mountebank');
-const http = require('http');
-const path = require('path');
-const { existsSync } = require('fs');
-const fs = require('fs/promises');
-const { spawn } = require('child_process');
+// @ts-expect-error
+import mb from 'mountebank';
+import * as http from 'http';
+import * as path from 'path';
+import { existsSync } from 'fs';
+import * as fs from 'fs/promises';
+import { spawn } from 'child_process';
+import { PlaywrightTestConfig } from '@playwright/test';
 
-/**
- * @param {any} options 
- * @param {"POST"|"GET"|"PUT"|"DELETE"} method 
- * @param {string} path 
- * @param {any} data 
- * @returns 
- */
-function curl(options, method, path, data) {
+function curl(options: any, method: "POST" | "GET" | "PUT" | "DELETE", path: string, data: any) {
   return new Promise((resolve, reject) => {
     const requestOptions = {
       method: method,
@@ -26,6 +21,7 @@ function curl(options, method, path, data) {
     };
 
     if (options.apikey) {
+      // @ts-expect-error
       requestOptions.headers['x-api-key'] = options.apikey;
     }
 
@@ -52,16 +48,25 @@ function curl(options, method, path, data) {
   });
 }
 
-/**
- * @param {string} message 
- */
-function log(message) {
+function log(message: string) {
   process.stdout.clearLine(0);
   process.stdout.cursorTo(0);
   process.stdout.write(message);
 }
 
-async function startMountebank({ imposters, tempDir, ...config }) {
+
+export type MountebankConfig = {
+  host?: string;
+  port?: number;
+  logLevel?: "debug" | "info" | "warn" | "error";
+  debug?: boolean;
+  allowInjection?: boolean;
+  log: any;
+} & {
+  imposters?: string[];
+};
+
+async function startMountebank({ imposters = [], tempDir, ...config }: MountebankConfig & { tempDir: string }) {
   const mbOptions = {
     port: 2525,
     allowInjection: true,
@@ -91,7 +96,7 @@ async function startMountebank({ imposters, tempDir, ...config }) {
   });
   log(`Mountebank: started ✅\n`)
 
-  return (onClose) => new Promise((resolve) => {
+  return (onClose?: () => void) => new Promise<void>((resolve) => {
     log(`Mountebank: stopping 🔄`)
     return close(() => {
       log(`Mountebank: stopped ✅\n`)
@@ -103,7 +108,7 @@ async function startMountebank({ imposters, tempDir, ...config }) {
   })
 }
 
-async function startPlaywright({ tempDir, ...config }) {
+async function startPlaywright({ tempDir, ...config }: PlaywrightTestConfig & { tempDir: string }) {
   log(`Playwright: preparing 🔄`);
 
   const configFile = path.join(tempDir, 'playwright.config.js');
@@ -127,9 +132,9 @@ async function startPlaywright({ tempDir, ...config }) {
   })
 }
 
-async function showPlaywrightReport({ outputFolder }) {
+async function showPlaywrightReport({ outputDir }: PlaywrightTestConfig) {
   return new Promise((resolve) => {
-    const reportDir = path.resolve(process.cwd(), outputFolder);
+    const reportDir = path.resolve(process.cwd(), outputDir!);
     const playwrightExecutable = path.join(process.cwd(), './node_modules/.bin/playwright');
     const playwright = spawn('node', [playwrightExecutable, 'show-report', reportDir]);
     playwright.stdout.pipe(process.stdout);
@@ -138,7 +143,25 @@ async function showPlaywrightReport({ outputFolder }) {
   })
 }
 
-function injectPredicate(stub, predicate) {
+type Stub = {
+  imposter: number;
+  predicates?: Array<{
+    contains?: {
+      path?: string;
+      headers?: Record<string, string>;
+    };
+  }>;
+  responses?: Array<{
+    is: {
+      statusCode: number;
+      body: Record<string, any>;
+    };
+    behaviors: Array<{
+      wait?: number;
+    }>;
+  }>;
+};
+function injectPredicate(stub: Stub, predicate: Record<string, any>) {
   const { predicates = [], ...rest } = stub;
 
   return {
@@ -151,7 +174,7 @@ function injectPredicate(stub, predicate) {
   };
 }
 
-async function importConfig(configPath) {
+async function importConfig(configPath: string) {
   const configPathResolved = path.resolve(process.cwd(), configPath);
 
   if (!existsSync(configPathResolved)) {
@@ -164,4 +187,4 @@ async function importConfig(configPath) {
   return { mountebank, playwright };
 }
 
-module.exports = { curl, log, startMountebank, startPlaywright, showPlaywrightReport, injectPredicate, importConfig }
+export { curl, log, startMountebank, startPlaywright, showPlaywrightReport, injectPredicate, importConfig }

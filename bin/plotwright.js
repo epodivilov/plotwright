@@ -4,7 +4,7 @@ import { writeFile, mkdtemp, rmdir } from 'fs/promises';
 import { join } from 'path';
 import { Command } from 'commander';
 
-import { startPlaywright, startMountebank, showPlaywrightReport, importConfig, log } from "../packages/core/index.js";
+import { startPlaywright, startMountebank, importConfig, log } from "../cjs/packages/core/index.js";
 
 const program = new Command();
 
@@ -44,16 +44,6 @@ program
     }
 
     process.exit(exitCode);
-  });
-
-program
-  .command('report')
-  .description('Display the results')
-  .option('-c, --config <path>', 'Path to config file', 'plotwright.config.js')
-  .action(async ({ config }) => {
-    const { playwright } = await importConfig(config);
-
-    await showPlaywrightReport(playwright)
   });
 
 program.parse(process.argv);
