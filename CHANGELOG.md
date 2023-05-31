@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.12](https://github.com/epodivilov/plotwright/compare/v0.3.11...v0.3.12) (2023-05-31)
+
+
+### Miscellaneous Chores
+
+* release 0.3.12 ([cda386f](https://github.com/epodivilov/plotwright/commit/cda386f1c97c2e7f6b52fdd884a8e66506fb79fd))
+
 ## [0.3.11](https://github.com/epodivilov/plotwright/compare/v0.3.10...v0.3.11) (2023-05-25)
 
 
