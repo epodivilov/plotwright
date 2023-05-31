@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { writeFile, mkdtemp, rmdir } from 'fs/promises';
+import { writeFile, mkdtemp, rm } from 'fs/promises';
 import { join } from 'path';
 import { Command } from 'commander';
 
@@ -40,7 +40,7 @@ program
 
     if (exitCode === 0) {
       /* Remove temp dir if no errors */
-      await rmdir(tempDir, { recursive: true });
+      await rm(tempDir, { recursive: true });
     }
 
     process.exit(exitCode);
