@@ -7,6 +7,7 @@ import * as fs from 'fs/promises';
 import { spawn } from 'child_process';
 import { PlaywrightTestConfig } from '@playwright/test';
 import { clearLine, cursorTo } from "readline";
+import serialize from 'serialize-javascript'
 
 function curl(options: any, method: "POST" | "GET" | "PUT" | "DELETE", path: string, data: any) {
   return new Promise((resolve, reject) => {
@@ -114,7 +115,7 @@ async function startPlaywright({ tempDir, ...config }: PlaywrightTestConfig & { 
   const configFile = path.join(tempDir, 'playwright.config.js');
 
   await fs.writeFile(configFile, `import { defineConfig, devices } from "@playwright/test";
-  export default defineConfig(${JSON.stringify(config, null, 2)});`);
+  export default defineConfig(${serialize(config, { space: 2 })});`);
 
   return new Promise((resolve) => {
     log(`Playwright: starting 🔄`);
