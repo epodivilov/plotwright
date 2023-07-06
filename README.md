@@ -1,172 +1,63 @@
 # Plotwright
 
-Plotwright is a practical meta-framework for end-to-end testing, built on the basis of Mountebank and Playwright. Its main goal is to simplify the process of setting up, configuring, and running tests for developers, while providing a convenient and understandable API. Plotwright helps to create clean, readable, and easily maintainable tests.
+Plotwright is a practical testing framework that combines the capabilities of Playwright and Mountebank. It allows you to test not only the client side of the application, but also the interaction with the server, substituting API responses according to the contract we need.
 
-The name "Plotwright" comes from the words "plot" (story) and "wright" (master). "Plot" here embodies the test scenario as a story or sequence of events, and "wright" represents the developer as a master creating these stories. Thus, Plotwright is a tool that helps developers "write scenarios" for their tests.
+## How Plotwright can be useful
 
-## Framework Idea
+- **Simplicity**: Plotwright simplifies the testing process by eliminating the need for complex preparatory work such as deploying APIs, Docker, and other infrastructure.
+- **Isolation**: The framework allows you to isolate tests from each other, making the testing process more stable and predictable.
+- **Flexibility**: Plotwright allows you to substitute API responses with those you need in your tests. You can easily simulate errors, broken data, empty data, and anything else to test how the UI behaves in such cases.
 
-Plotwright provides a convenient wrapper around Playwright and Mountebank, allowing you to test the client part and BFF (Back-end for Front-end) of your application as a "black box". Instead of addressing real APIs, requests are redirected to Mountebank, which can provide predefined responses or proxy requests to real APIs. This simplifies testing, ensures test isolation, and eliminates network problems.
+## Differences from other products
 
-With Plotwright, you can test the client part and BFF of your application without worrying about their internal structure. Instead of testing interactions with real APIs, you can focus on testing contracts.
+- **Isolation**: Plotwright allows you to fully isolate tests from each other, providing more stable and reliable results.
+- **Testing not only the client side**: Unlike Playwright, Plotwright allows you to test not only the client side, but also the BFF (Back-end for Front-end) of your application.
+- **Language independence**: Plotwright allows you to test your application regardless of the language used on the client side or on the BFF.
+- **Simplification of the testing process**: Unlike regular Playwright and headless Chrome tools, Plotwright simplifies the testing process by providing a convenient API and automating many routine tasks.
+- **API response substitution**: Plotwright allows you to substitute API responses with those you need in specific tests, allowing you to simulate various scenarios and conditions.
 
-Here is a diagram that illustrates which parts of the product are covered by Plotwright tests:
+## Get started
 
-```mermaid
-flowchart
-CP[Client]
-CT[Client]
-BFFP[BFF]
-BFFT[BFF]
-U((User))
-M{{Mountebank}}
-subgraph S2[Test stage]
-    direction TB
-    subgraph Plotwright
-        direction LR
-        Playwright((Playwright)) ---- CT
-        CT --- BFFT
-        BFFT --- M
-        BFFT --- M
-        BFFT --- M
-    end
-    M -.- API1T[Auth API] & API2T[First API] & API3T[Second API]
-end
-subgraph S1[Production stage]
-    direction TB
-    CP --- BFFP
-    U ------ CP
-    BFFP ---- API1[Auth API] & API2[First API] & API3[Second API]
-end
-style S1 fill:none,stroke:#ccc
-style S2 fill:none,stroke:#ccc
-style Plotwright fill:none,stroke:#000
-```
-
-On this diagram, it is shown how the client application and BFF interact with various APIs at the production stage and how Plotwright and Mountebank are used to test these interactions at the testing stage.
-
-## Installation
-
-To install Plotwright in your project, run the following command:
-
-```bash
-npm install --save-dev plotwright
-```
-
-## Configuration
-
-Plotwright uses a configuration file to set various parameters. Here is an example of a configuration file:
-
-```javascript
-/**
- * @type {import('plotwright').Configuration}
- */
-module.exports = {
-  playwright: {
-    testDir: "tests",
-    fullyParallel: true,
-    forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
-    reporter: "html",
-    use: {
-      baseURL: "http://127.0.0.1:3000",
-      trace: "on-first-retry",
+1. Install Plotwright using npm: `npm install plotwright`
+2. Create a minimal configuration file: `npx plotwright init`
+3. Specify in the file the path to your e2e tests and to the substituted APIs:
+  ```javascript
+  /**
+   * plotwright.config.js
+   * @type {import('plotwright').Configuration}
+   */
+  module.exports = {
+    playwright: {
+      testDir: "./e2e/specs",
     },
-    projects: [
-      {
-        name: "chromium",
-        use: { ...devices["Desktop Chrome"] },
-      },
-    ],
-    webServer: {
-      command: "npm run start",
-      url: "http://127.0.0.1:3000",
-      reuseExistingServer: !process.env.CI,
+    mountebank: {
+      imposters: ["./e2e/imposters/stub-api."],
     },
-  },
-  mountebank: {
-    imposters: [
-      {
-        protocol: "http",
-        port: 3000,
-        stubs: [
-          {
-            responses: [
-              {
-                is: {
-                  statusCode: 200,
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ message: "Hello, World!" }),
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-};
-```
+  };
+  ```
 
-Test isolation in Plotwright is achieved by creating unique stubs for each test. All requests from each test are signed with a special X-Request-ID header with a unique identifier. The identifier can be set by the user using the `useAnnotation` function or it can use the internal identifier of Playwright itself.
-
-```javascript
-await useAnnotation("ID", "RP-TC-003");
-```
-
-Stubs are connected in the test using the `useStubs` function:
-
-```javascript
-await useStubs([
-  import("./__stubs__/oauth.json"),
-  import("./__stubs__/api.json"),
-]);
-```
-
-Before the test is executed, the framework places the specified stubs in Mountebank, using the unique identifier as an additional condition in the `predicates` section of the stub.
-
-When Mountebank receives a request, it finds the corresponding stub based on the specified conditions and the value of X-Request-ID.
-
-For this mechanism to work correctly, it is necessary to ensure the transmission of the X-Request-ID header through your BFF and along with requests to the API. This will allow Mountebank to correctly identify and use the appropriate stubs.
-
-## Writing Tests
-
-Plotwright provides a convenient API for writing end-to-end tests. It is important to note that you should import test, describe, expect, and step from the plotwright package, as Plotwright extends these functions and provides additional capabilities. Here is an example of a test:
-
-```javascript
-import { test, describe, expect, step } from "plotwright";
-
-describe("Test suite", () => {
-  test("Test example page", async ({ page }) => {
-    await page.goto("https://example.com");
-
-    await step("Check page title", async () => {
-      const title = await page.title();
-      expect(title).toBe("Example Domain");
-    });
-
-    await step("Check page has button 'Submit'", async () => {
-      await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+5. Create a test scenario file:
+  ```javascript
+  // ./e2e/specs/example.spec.js
+  import { test, describe, expect, step } from "plotwright";
+  
+  describe("Test suite", () => {
+    test("Test example page", async ({ page, useStubs }) => {
+      await useStubs([import("./_stubs_/success-response-api.json")]);
+  
+      await page.goto("https://example.com");
+  
+      await step("Check page title", async () => {
+        const title = await page.title();
+        expect(title).toBe("Example Domain");
+      });
+  
+      await step("Check page has button 'Submit'", async () => {
+        await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+      });
     });
   });
-});
-```
+  ```
 
-You can use any functions and classes from Playwright. Please refer to the [Playwright documentation](https://playwright.dev/) for additional information about available functions.
+7. Run the test using the command `npx plotwright test`.
 
-After writing the tests, you can run them using the command
-
-```bash
-npx plotwright test
-```
-
-### Support and Contribution to the Project
-
-I am always glad to help the community in developing and improving Plotwright. If you have found a bug, want to suggest an improvement or add new functionality, please create an issue or pull request in the repository on GitHub.
-
-If you have questions or suggestions for using Plotwright, you can also create an issue, and I will try to respond to it as soon as possible.
-
-I thank you for your interest in Plotwright and appreciate your contribution to its development!
