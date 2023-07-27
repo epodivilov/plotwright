@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.13](https://github.com/epodivilov/plotwright/compare/v0.3.12...v0.3.13) (2023-07-27)
+
+
+### Bug Fixes
+
+* stop implicitly adding predicates to stubs ([e1c993e](https://github.com/epodivilov/plotwright/commit/e1c993e9c6a37d6ba69cf1eb139f724114c1e3c4))
+
 ## [0.3.12](https://github.com/epodivilov/plotwright/compare/v0.3.11...v0.3.12) (2023-05-31)
 
 
