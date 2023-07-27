@@ -43,14 +43,7 @@ export const test = base.extend<ExtendedTest>({
         stubs.map(({ imposter, ...stub }) => {
           return curl({ port: 2525 }, "POST", `/imposters/${imposter}/stubs`, {
             index: 0,
-            // stub,
-            stub: injectPredicate(stub, {
-              contains: {
-                headers: {
-                  "X-Request-ID": testId,
-                },
-              },
-            }),
+            stub,
           });
         })
       );
